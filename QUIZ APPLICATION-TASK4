@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Quiz</title>
+  <style>
+    body{
+      padding: 30px;
+      border: solid 5px black;
+      background-color: burlywood;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: left;
+    }
+    .question {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+    .option {
+      display: block;
+      margin-bottom: 10px;
+    }
+    .result {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 style="text-align :center"> Quiz</h1>
+    <div id="quiz">
+    </div>
+    <button id="submit">Submit</button>
+    <div id="result" class="result"></div>
+  </div>
+
+  <script>
+    const Data = [
+      {
+    question: 'What is the capital of India?',
+    options: ['Mumbai', 'Delhi', 'Kolkata', 'Chennai'],
+    answer: 'Delhi'
+  },
+  {
+    question: 'Which river is known as the "Ganga" in India?',
+    options: ['Yamuna', 'Brahmaputra', 'Indus', 'Ganges'],
+    answer: 'Ganges'
+  },
+  {
+    question: 'Who was the first Prime Minister of India?',
+    options: ['Mahatma Gandhi', 'Jawaharlal Nehru', 'Indira Gandhi', 'Sardar Vallabhbhai Patel'],
+    answer: 'Jawaharlal Nehru'
+  },
+  {
+    question: 'Which city is famous for the Taj Mahal?',
+    options: ['Delhi', 'Agra', 'Jaipur', 'Mumbai'],
+    answer: 'Agra'
+  },
+  {
+    question: 'Which festival is known as the "Festival of Lights" in India?',
+    options: ['Diwali', 'Holi', 'Dussehra', 'Navratri'],
+    answer: 'Diwali'
+  }
+    ];
+
+    const quizContainer = document.getElementById('quiz');
+    const resultContainer = document.getElementById('result');
+    const submitButton = document.getElementById('submit');
+    let score = 0;
+
+    function displayQuestions() {
+      Data.forEach((questionData, index) => {
+        const questionElement = document.createElement('div');
+        questionElement.className = 'question';
+        questionElement.innerText = (index + 1) + '. ' + questionData.question;
+
+        const optionsElement = document.createElement('div');
+        optionsElement.className = 'options';
+
+        questionData.options.forEach((option) => {
+          const optionLabel = document.createElement('label');
+          optionLabel.className = 'option';
+
+          const radio = document.createElement('input');
+          radio.type = 'radio';
+          radio.name = 'question' + index;
+          radio.value = option;
+
+          const optionText = document.createTextNode(option);
+
+          optionLabel.appendChild(radio);
+          optionLabel.appendChild(optionText);
+          optionsElement.appendChild(optionLabel);
+        });
+
+        quizContainer.appendChild(questionElement);
+        quizContainer.appendChild(optionsElement);
+      });
+    }
+
+    function calculateScore() {
+      score = 0;
+      Data.forEach((questionData, index) => {
+        const selectedOption = document.querySelector('input[name="question' + index + '"]:checked');
+        if (selectedOption && selectedOption.value === questionData.answer) {
+          score++;
+        }
+      });
+      resultContainer.innerText = 'Your score: ' + score + '/' + Data.length;
+    }
+
+  
+    submitButton.addEventListener('click', function() {
+      calculateScore();
+    });
+
+    displayQuestions();
+  </script>
+</body>
+</html>
