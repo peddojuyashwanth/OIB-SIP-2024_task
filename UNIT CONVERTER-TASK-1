@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input[type="number"], select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>UNIT Converter</h1>
+
+        <div class="converter">
+            <h2>Weight Converter</h2>
+            <label for="weightValue">Enter Weight:</label>
+            <input type="number" id="weightValue" placeholder="Enter weight in grams">
+            <select id="weightUnit">
+                <option value="g">Grams</option>
+                <option value="kg">Kilograms</option>
+                <option value="mg">Milligrams</option>
+            </select>
+            <button onclick="convertWeight()">CONVERT WEIGHT</button>
+            <div class="result weightResult"></div>
+        </div>
+
+        <div class="converter">
+            <h2>Length Converter</h2>
+            <label for="lengthValue">Enter Length:</label>
+            <input type="number" id="lengthValue" placeholder="Enter length in centimeters">
+            <select id="lengthUnit">
+                <option value="cm">Centimeters</option>
+                <option value="m">Meters</option>
+                <option value="km">Kilometers</option>
+            </select>
+            <button onclick="convertLength()">CONVERT LENGTH</button>
+            <div class="result lengthResult"></div>
+        </div>
+    </div>
+
+    <script>
+        function convertWeight() {
+            var value = parseFloat(document.getElementById('weightValue').value);
+            var unit = document.getElementById('weightUnit').value;
+            var gram, kilogram, milligram;
+            
+            if (unit === 'g') {
+                gram = value;
+                kilogram = value / 1000;
+                milligram = value * 1000;
+            } else if (unit === 'kg') {
+                gram = value * 1000;
+                kilogram = value;
+                milligram = value * 1000000;
+            } else if (unit === 'mg') {
+                gram = value / 1000;
+                kilogram = value / 1000000;
+                milligram = value;
+            }
+
+            var text = "In Grams: " + gram + "<br>In Kilograms: " + kilogram + "<br>In Milligrams: " + milligram;
+            document.querySelector('.weightResult').innerHTML = text;
+        }
+
+        function convertLength() {
+            var value = parseFloat(document.getElementById('lengthValue').value);
+            var unit = document.getElementById('lengthUnit').value;
+            var centimeter, meter, kilometer;
+
+            if (unit === 'cm') {
+                centimeter = value;
+                meter = value / 100;
+                kilometer = value / 100000;
+            } else if (unit === 'm') {
+                centimeter = value * 100;
+                meter = value;
+                kilometer = value / 1000;
+            } else if (unit === 'km') {
+                centimeter = value * 100000;
+                meter = value * 1000;
+                kilometer = value;
+            }
+
+            var text = "In Centimeters: " + centimeter + "<br>In Meters: " + meter + "<br>In Kilometers: " + kilometer;
+            document.querySelector('.lengthResult').innerHTML = text;
+        }
+    </script>
+</body>
+</html>
