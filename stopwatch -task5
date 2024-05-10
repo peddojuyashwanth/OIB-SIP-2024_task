@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch </title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin-top: 100px;
+  }
+  .stopwatch {
+    font-size: 24px;
+  }
+  button {
+    font-size: 18px;
+    margin: 10px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .pause-points {
+    margin-top: 20px;
+  }
+  .hey{
+    width: 50%;
+    border: 5px solid black;
+    margin-left: 150px;
+    
+  }
+  #start{
+    background-color:green;
+  }
+  #stop{
+    background-color:red;
+  }
+  #pause{
+    background-color: yellow;
+  }
+</style>
+</head>
+<body>
+    <div class="hey">
+<h1>Stop Watch</h1>
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPCVE4fDyqnzVv0zv3Szdg3oVZOUehKEm67Xi7nyqa0Q&s"/>
+<div class="stopwatch">00:00:00</div>
+<button id="start" >Start</button>
+<button id="stop">Stop</button>
+<button id="pause">Pause</button>
+<div class="pause-points"></div>
+</div>
+<script>
+  let startTime;
+  let elapsedTime = 0;
+  let timerInterval;
+  const pausePoints = [];
+
+  function startTimer() {
+    startTime = Date.now() - elapsedTime;
+    timerInterval = setInterval(updateTime, 10);
+    toggleButtons(true);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    toggleButtons(false);
+  }
+
+  function pauseTimer() {
+    clearInterval(timerInterval);
+    toggleButtons(false);
+    pausePoints.push(elapsedTime);
+    updatePausePoints();
+  }
+
+  function updatePausePoints() {
+    const pausePointsContainer = document.querySelector('.pause-points');
+    pausePointsContainer.innerHTML = '';
+    pausePoints.forEach((pausePoint, index) => {
+      const pausePointElement = document.createElement('div');
+      pausePointElement.textContent = `Pause ${index + 1}: ${formatTime(pausePoint)}`;
+      pausePointsContainer.appendChild(pausePointElement);
+    });
+  }
+
+  function updateTime() {
+    const currentTime = Date.now();
+    elapsedTime = currentTime - startTime;
+    const formattedTime = formatTime(elapsedTime);
+    document.querySelector('.stopwatch').textContent = formattedTime;
+  }
+
+  function formatTime(milliseconds) {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    const millisecondsFormatted = Math.floor((milliseconds % 1000) / 10);
+    return `${padTime(minutes)}:${padTime(seconds)}:${padTime(millisecondsFormatted)}`;
+  }
+
+  function padTime(value) {
+    return value < 10 ? `0${value}` : value;
+  }
+
+  function toggleButtons(isRunning) {
+    document.getElementById('start').disabled = isRunning;
+    document.getElementById('stop').disabled = !isRunning;
+    document.getElementById('pause').disabled = !isRunning;
+  }
+
+  document.getElementById('start').addEventListener('click', startTimer);
+  document.getElementById('stop').addEventListener('click', stopTimer);
+  document.getElementById('pause').addEventListener('click', pauseTimer);
+</script>
+
+</body>
+</html>
